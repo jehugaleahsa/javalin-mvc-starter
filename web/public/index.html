@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Home</title>
+        <meta name="description" content="Homepage">
+
+        <link rel="icon" href="/favicon.ico">
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+    <body onload="showLogoutIfLoggedIn()">
+        Hello, world!!!
+        <a class="login-button hidden" href="/login">Login</a>
+        <button class="logout-button hidden" onclick="logout()">Logout</button>
+    <script>
+        function showLogoutIfLoggedIn() {
+          const loginButtons = window.document.body.getElementsByClassName("login-button");
+          const loginButton = loginButtons.length !== 1 ? null : loginButtons[0];
+          const logoutButtons = window.document.body.getElementsByClassName("logout-button");
+          const logoutButton = logoutButtons.length !== 1 ? null : logoutButtons[0];
+          const request = new Request("/api/users", {
+            redirect: "error",
+            headers: {
+              "X-Requested-With": "XMLHttpRequest"
+            }
+          });
+          fetch(request)
+            .then(response => {
+              if (response.ok) {
+                loginButton?.classList.add("hidden");
+                logoutButton?.classList.remove("hidden");
+              } else {
+                loginButton?.classList.remove("hidden");
+                logoutButton?.classList.add("hidden");
+              }
+            })
+            .catch(() => {
+              loginButton?.classList.remove("hidden");
+              logoutButton?.classList.add("hidden");
+            });
+        }
+
+        function logout() {
+          const request = new Request("/logout", { method: "POST" });
+          fetch(request)
+            .then(() => {
+              showLogoutIfLoggedIn();
+            });
+        }
+    </script>
+    </body>
+</html>
