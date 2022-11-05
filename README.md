@@ -15,3 +15,15 @@ Example Web Application Using Javalin MVC
    > Intellij doesn't seem to pick up the generated classes automatically. You can try marking the `common/target/generated-sources` as a generated source root.
 5. Run the application
    * Make sure `web/` is your working directory. The application expects to find the `config/` and `public/` directories directly beneath it.
+
+## Highlights
+This application hopes to demonstate the following features:
+* Hosting Javalin with `main`
+* Wiring in Javalin MVC
+* Dependency injection using Guice
+* OpenAPI examples
+* Forms authentication using pac4j
+* Database access using Hibernate
+* Homegrown database migation module
+* Logging
+* And more...
