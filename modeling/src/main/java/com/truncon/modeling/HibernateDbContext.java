@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -42,6 +43,10 @@ public final class HibernateDbContext implements DbContext {
 
     public <T> TypedQuery<T> createQuery(String qlQuery, Class<T> clz) {
         return entityManager.createQuery(qlQuery, clz);
+    }
+
+    public Query createNativeQuery(String query, Class<?> clz) {
+        return entityManager.createNativeQuery(query, clz);
     }
 
     public <T> JPAQuery<T> createQuery(EntityPath<T> entityPath) {

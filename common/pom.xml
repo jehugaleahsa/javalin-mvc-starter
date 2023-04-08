@@ -14,6 +14,7 @@
         <dependencies.querydsl.version>5.0.0</dependencies.querydsl.version>
         <dependencies.jpamodelgen.version>6.0.0.Alpha9</dependencies.jpamodelgen.version>
         <dependencies.persistence-api.version>3.1.0</dependencies.persistence-api.version>
+        <dependencies.jooq.version>3.18.0</dependencies.jooq.version>
     </properties>
     <dependencies>
         <!-- JPA Metamodel Generation -->
@@ -27,6 +28,11 @@
             <artifactId>querydsl-jpa</artifactId>
             <version>${dependencies.querydsl.version}</version>
             <classifier>jakarta</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta-extensions</artifactId>
+            <version>3.18.2</version>
         </dependency>
         <!-- JPA Annotations -->
         <dependency>
@@ -117,6 +123,48 @@
                         <groupId>jakarta.persistence</groupId>
                         <artifactId>jakarta.persistence-api</artifactId>
                         <version>${dependencies.persistence-api.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <version>${dependencies.jooq.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jdbc>
+                        <driver>org.postgresql.Driver</driver>
+                        <url>jdbc:postgresql://localhost/web_starter</url>
+                        <user>pguser</user>
+                        <password>password</password>
+                        <schema>public</schema>
+                    </jdbc>
+                    <generator>
+                        <database>
+                            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                        </database>
+                        <generate/>
+                        <target>
+                            <packageName>com.truncon.models.jooq.generated</packageName>
+                            <directory>${build.sourceDirectory}</directory>
+                        </target>
+                        <strategy>
+                            <name>org.jooq.codegen.example.JPrefixGeneratorStrategy</name>
+                        </strategy>
+                    </generator>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>42.5.4</version>
                     </dependency>
                 </dependencies>
             </plugin>

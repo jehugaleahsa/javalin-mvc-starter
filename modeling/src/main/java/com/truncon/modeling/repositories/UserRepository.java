@@ -2,8 +2,9 @@ package com.truncon.modeling.repositories;
 
 import com.truncon.modeling.DbException;
 import com.truncon.modeling.HibernateDbContext;
-import com.truncon.models.QUser;
+import com.truncon.modeling.JooqQueries;
 import com.truncon.models.User;
+import com.truncon.models.jooq.generated.tables.JUser;
 
 import javax.inject.Inject;
 import java.util.Optional;
@@ -36,10 +37,15 @@ public final class UserRepository {
         //return Optional.ofNullable(user);
 
         // Querydsl example
-        QUser quser = QUser.user;
-        User user = dbContext.createQuery(quser)
-            .where(quser.email.eq(email))
-            .fetchOne();
-        return Optional.ofNullable(user);
+//        QUser quser = QUser.user;
+//        User user = dbContext.createQuery(quser)
+//            .where(quser.email.eq(email))
+//            .fetchOne();
+//        return Optional.ofNullable(user);
+
+        return JooqQueries.queryFirst(dbContext, User.class, ctx -> ctx.select()
+            .from(JUser.USER)
+            .where(JUser.USER.EMAIL.eq(email))
+        );
     }
 }
