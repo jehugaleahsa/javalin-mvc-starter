@@ -1,4 +1,4 @@
-> Archived 2026-03-28: This project is very old and based on a really old version of Javalin.
+> *Archived 2026-03-28*: This project is very old and based on a really old version of Javalin.
 
 # Javalin MVC Web Starter
 Example Web Application Using Javalin MVC
